@@ -33,6 +33,7 @@ class AdminCog(Cog, name="Admin"):
 			await ctx.send("That extension isn't loaded, stupid!")
 			return
 		self.bot.unload_extension(ext)
+		await ctx.send("aight")
 
 	@command("list_modules",brief="Lists loaded modules.")
 	async def list_modules(self,ctx):
