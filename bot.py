@@ -1,5 +1,6 @@
 import os, sys
 from discord.ext import commands
+from discord import Intents
 import config
 # add this directory to the python module path
 sys.path.insert(1,os.path.dirname(os.path.realpath(__file__)))
@@ -9,7 +10,7 @@ class IgnoreBotsBot(commands.Bot):
 		if message.author.bot: return
 		await self.process_commands(message)
 
-bot = IgnoreBotsBot("!")
+bot = IgnoreBotsBot("!",intents=Intents.all())
 
 for module in os.listdir("cogs"):
 	# if it's a python file, load it as an extension
