@@ -1,4 +1,4 @@
-from discord.ext.commands import Cog, command
+from discord.ext.commands import Cog, group
 import traceback
 
 class FanficChallengeCog(Cog,name="Fanfiction Challenge"):
@@ -6,7 +6,11 @@ class FanficChallengeCog(Cog,name="Fanfiction Challenge"):
 		self.bot = bot
 		self.session = bot.session
 
-	@command(usage="[fandom]",help="Picks a random pairing of characters from a given fandom. If no fandom ID is specified, a list of fandoms will be printed.",brief="Choose a fandom, or get a list of fandoms")
+	@group("ffc",brief="Play the Fanfiction Challenge",invoke_without_command=True)
+	async def ffc(self,ctx,*args):
+		await ctx.send("```\nCommands:\n  pick - Pick a random pairing from a given fandom\n  list - List the fandoms you can pick from.\n```")
+
+	@ffc.command(usage="[fandom]",help="Picks a random pairing of characters from a given fandom. If no fandom ID is specified, a list of fandoms will be printed.",brief="Choose a fandom, or get a list of fandoms")
 	async def pick(self,ctx,*,fandom=None):
 		if fandom is None:
 			async with self.session.get("https://khuxkm.tilde.team/fanfic/list.cgi") as response:
@@ -31,7 +35,7 @@ class FanficChallengeCog(Cog,name="Fanfiction Challenge"):
 			except:
 				await ctx.send("ohno\n```\n"+traceback.format_exc()+"```\n")
 
-	@command(help="Lists the fandoms you can play the Fanfiction Challenge with. Effectively the same as using pick with no arguments.",brief="Lists the fandoms you can play the Challenge with.")
+	@ffc.command("list",help="Lists the fandoms you can play the Fanfiction Challenge with. Effectively the same as using pick with no arguments.",brief="Lists the fandoms you can play the Challenge with.")
 	async def list_fandoms(self,ctx,*_):
 		async with self.session.get("https://khuxkm.tilde.team/fanfic/list.cgi") as response:
 			try:
