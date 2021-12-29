@@ -2,7 +2,7 @@ from discord.ext.commands import Cog, command
 import re, random
 
 class DNDCog(Cog, name="D&D"):
-	DICE = re.compile(r"(\d+)d(\d+)([+-]\d+)?")
+	DICE = re.compile(r"(\d+)d(\d+)([+-]\d+|dl)?")
 	def __init__(self,bot):
 		self.bot=bot
 	@command(brief="Roll dice via D&D specifier",help="Roll dice via D&D specifier. Format is {n}d{s}[\N{PLUS-MINUS SIGN}{mod}], where n is the number of dice to roll, s is the number of sides on each die, and mod is the modifier.")
@@ -14,8 +14,12 @@ class DNDCog(Cog, name="D&D"):
 		n = int(n)
 		s = int(s)
 		# default to modifier of 0
-		mod = int(mod or '0')
+		mod = int(mod or '0') if mod!="dl" else mod
 		rolls = [random.randint(1,s) for i in range(n)]
+		if mod=="dl":
+			rolls.sort()
+			rolls = rolls[1:]
+			mod = 0
 		await ctx.send("Result: **"+str(sum(rolls)+mod)+"** ("+", ".join(map(str,rolls))+" plus mod of "+str(mod)+")")
 	@command(brief="Roll a D&D character using 4d6dl.")
 	async def roll_character(self,ctx):
