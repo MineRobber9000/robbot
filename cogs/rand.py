@@ -10,5 +10,5 @@ class RandCog(Cog, name="Random Stuff"):
 #	async def trello(self,ctx):
 #		await ctx.send("https://trello.com/b/N22i5bkH/robbot")
 
-def setup(bot):
-	bot.add_cog(RandCog(bot))
+async def setup(bot):
+	await bot.add_cog(RandCog(bot))

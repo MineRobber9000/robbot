@@ -15,5 +15,5 @@ class Log(Cog,name="Logger"):
 #			await f.write(logline+"\n")
 #			await f.flush()
 
-def setup(bot):
-	bot.add_cog(Log())
+async def setup(bot):
+	await bot.add_cog(Log())

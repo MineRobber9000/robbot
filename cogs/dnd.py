@@ -29,5 +29,5 @@ class DNDCog(Cog, name="D&D"):
 			stats.append(sum(rolls[1:]))
 		await ctx.send("Rolled stats: "+", ".join(map(str,sorted(stats))))
 
-def setup(bot):
-	bot.add_cog(DNDCog(bot))
+async def setup(bot):
+	await bot.add_cog(DNDCog(bot))

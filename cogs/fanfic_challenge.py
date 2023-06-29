@@ -49,16 +49,5 @@ class FanficChallengeCog(Cog,name="Fanfiction Challenge"):
 			except:
 				await ctx.send("ohno\n```\n"+traceback.format_exc()+"```\n")
 
-import aiohttp
-setup_session=False
-def setup(bot):
-	global setup_session
-	if not hasattr(bot,'session'):
-		bot.session=aiohttp.ClientSession(loop=bot.loop)
-		setup_session=True
-	bot.add_cog(FanficChallengeCog(bot))
-
-def teardown(bot):
-	if setup_session:
-		bot.session.close()
-		del bot.session
+async def setup(bot):
+	await bot.add_cog(FanficChallengeCog(bot))

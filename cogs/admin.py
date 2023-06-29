@@ -11,16 +11,15 @@ class AdminCog(Cog, name="Admin"):
 		extensions = list(self.bot.extensions)
 		for name in extensions:
 			try:
-				self.bot.reload_extension(name)
+				await self.bot.unload_extension(name)
 			except:
 				await ctx.send("ohno\n```\n"+traceback.format_exc()+"```\n")
 				pass
 		for module in os.listdir("cogs"):
 			if module.endswith(".py"):
 				modname = "cogs."+module[:-3]
-				if modname in extensions: continue
 				try:
-					self.bot.load_extension(modname)
+					await self.bot.load_extension(modname)
 				except:
 					await ctx.send("ohno\n```\n"+traceback.format_exc()+"```\n")
 					pass
@@ -66,5 +65,10 @@ class AdminCog(Cog, name="Admin"):
 		except:
 			await ctx.send("Result:\n```\n"+traceback.format_exc()+"\n```\n")
 
-def setup(bot):
-	bot.add_cog(AdminCog(bot))
+	@command("reboot")
+	@is_owner()
+	async def reboot(self,ctx):
+		sys.exit()
+
+async def setup(bot):
+	await bot.add_cog(AdminCog(bot))
