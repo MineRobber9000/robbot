@@ -25,13 +25,22 @@ class AdminCog(Cog, name="Admin"):
 					pass
 		await ctx.send("aight")
 
+	@command("load",brief="Loads a given module.")
+	@is_owner()
+	async def load(self,ctx,*,ext):
+		if ext in self.bot.extensions:
+			await ctx.send("That extension is already loaded, stupid!")
+			return
+		await self.bot.load_extension(ext)
+		await ctx.send("aight")
+
 	@command("unload",brief="Unloads a given module.")
 	@is_owner()
 	async def unload(self,ctx,*,ext):
 		if ext not in self.bot.extensions:
 			await ctx.send("That extension isn't loaded, stupid!")
 			return
-		self.bot.unload_extension(ext)
+		await self.bot.unload_extension(ext)
 		await ctx.send("aight")
 
 	@command("list_modules",brief="Lists loaded modules.")
